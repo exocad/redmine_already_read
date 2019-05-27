@@ -7,14 +7,13 @@ module AlreadyRead
         has_many :already_reads, :class_name => 'AlreadyRead'
         has_many :already_read_users, :through => :already_reads, :source => :user
         after_update :reset_already_read
-        alias_method_chain :css_classes, :already_read
       end
     end
 
     module InstanceMethods # obj.method
       # チケットのclassに既読／未読も追加する
-      def css_classes_with_already_read(user=User.current)
-        s = css_classes_without_already_read(user)
+      def css_classes(user=User.current)
+        s = super(user)
         s << ((self.already_read?)? ' read' : ' unread')
         s << ((self.new_unread?)? ' new' : '')
         return s
