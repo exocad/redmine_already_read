@@ -43,7 +43,7 @@ module AlreadyRead
       private
       # 既読フラグはチケットを更新したらリセットする
       def reset_already_read
-        AlreadyRead.destroy_all(:issue_id => self.id)
+        AlreadyRead.where(:issue_id => self.id).destroy_all
       end
     end
   end
