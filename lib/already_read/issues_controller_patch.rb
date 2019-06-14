@@ -21,11 +21,12 @@ module AlreadyRead
       def bulk_set_read
         issues = Issue.where(:id => params["ids"]);
         if params[:set_unread]
-          AlreadyRead.destroy_all(:issue_id => params[:ids], :user_id => User.current.id)
+			AlreadyRead.where(:issue_id => params[:ids], :user_id => User.current.id).destroy_all
         else
           User.current.already_read_issues << issues.reject{|issue| issue.already_read?}
-        end
-        redirect_back_or_default({:controller => 'issues', :action => 'index', :project_id => @project})
+		end
+		# redirect only if this route has been directly accessed
+		redirect_back_or_default({:controller => 'issues', :action => 'index', :project_id => @project}) if request.path == '/issues/bulk_set_read'
       end
 
       private
