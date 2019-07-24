@@ -18,6 +18,10 @@ module AlreadyReadLib
           @available_filters['already_read'] = {:type => :list, :order => 20, :values => @available_filters['author_id'][:values], :name => l(:field_already_read)}
         end
 
+        if !has_filter?('already_read_date')
+          @available_filters['already_read_date'] = {:type => :date_past,  :name => l(:field_already_read_date)}
+        end
+
         return @available_filters
       end
 
@@ -35,6 +39,11 @@ module AlreadyReadLib
 
         sql = "#{Issue.table_name}.id #{op} (SELECT #{db_table}.issue_id FROM #{db_table} WHERE " + sql_for_field(field, '=', value, db_table, 'user_id') + ")"
 
+        return sql
+      end
+
+      def sql_for_already_read_date_field(field, operator, value)
+        sql = "(#{Issue.table_name}.id IN (#{AlreadyRead.select(:issue_id).where('date(created_on) = ?', value).to_sql}))"
         return sql
       end
     end
