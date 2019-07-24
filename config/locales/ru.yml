@@ -9,8 +9,8 @@ en:
   label_mark_read: "Отметить как прочинанное"
   label_mark_unread: "Отметить как непрочинанное"
 
-  label_already_read_read: Прочинано
-  label_already_read_unread: Не прочинано
+  label_already_read_read: Да
+  label_already_read_unread: Нет
 
   activity_already_read: Прочинано
 
