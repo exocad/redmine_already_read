@@ -1,4 +1,4 @@
-require_dependency 'hook'
+require_dependency 'already_read_lib'
 
 Rails.application.config.to_prepare do
   unless Issue.include?(AlreadyReadLib::IssuePatch)
