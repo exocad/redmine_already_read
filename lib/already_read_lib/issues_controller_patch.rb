@@ -4,7 +4,8 @@ module AlreadyReadLib
       base.send :include, InstanceMethods
 
       base.class_eval do
-        before_filter :authorize, :except => :bulk_set_read
+        # overrides main :'(
+        before_filter :authorize, :except => [:index, :new, :create, :bulk_set_read] 
         after_filter :issue_read, :only => :show
         after_filter :set_read, :only => :bulk_update
       end
