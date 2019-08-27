@@ -21,6 +21,6 @@ Redmine::Plugin.register :redmine_already_read do
 
   # Nepadeda, nes neperduoda kazkodel projekto :(
   # Redmine::AccessControl.permission(:view_issues).actions << "issues/bulk_set_read" 
-  activity_provider :issues, :class_name => 'AlreadyRead'
+  activity_provider :issues, :class_name => 'AlreadyRead', :default => false
 
 end
