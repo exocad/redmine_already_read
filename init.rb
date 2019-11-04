@@ -1,9 +1,15 @@
-require 'redmine'
-require 'already_read/already_read_hooks'
-require 'already_read/issue_patch'
-require 'already_read/issues_controller_patch'
-require 'already_read/user_patch'
-require 'already_read/issue_query_patch'
+require_dependency 'already_read_lib'
+
+Rails.application.config.to_prepare do
+  unless Issue.include?(AlreadyReadLib::IssuePatch)
+    Issue.send(:include, AlreadyReadLib::IssuePatch)
+    IssuesController.send(:include, AlreadyReadLib::IssuesControllerPatch)
+    User.send(:include, AlreadyReadLib::UserPatch)
+    IssueQuery.add_available_column(QueryColumn.new(:already_read))
+    IssueQuery.add_available_column(QueryColumn.new(:already_read_date))
+    IssueQuery.send(:include, AlreadyReadLib::IssueQueryPatch)
+  end
+end
 
 Redmine::Plugin.register :redmine_already_read do
   name 'Redmine Already Read plugin'
@@ -15,6 +21,6 @@ Redmine::Plugin.register :redmine_already_read do
 
   # Nepadeda, nes neperduoda kazkodel projekto :(
   # Redmine::AccessControl.permission(:view_issues).actions << "issues/bulk_set_read" 
-  activity_provider :issues, :class_name => 'AlreadyRead'
+  activity_provider :issues, :class_name => 'AlreadyRead', :default => false
 
 end
