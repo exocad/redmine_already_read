@@ -4,26 +4,33 @@ module AlreadyRead
       base.send(:include, InstanceMethods) # obj.method
 
       base.class_eval do
-        alias_method_chain :available_filters, :already_read
+        attr_accessor :next_instance_requires_additional_only_unreads_filter_injection
+        IssueQuery.next_instance_requires_additional_only_unreads_filter_injection=false
+        
+        # horrible chaining is necessary to stay compatible with RedmineUP plugins
+        alias_method :initialize_available_filters_without_already_read, :initialize_available_filters
+        alias_method :initialize_available_filters, :initialize_available_filters_with_already_read
       end
     end
 
     module InstanceMethods # obj.method
-      # 既読フィルタを追加
-      def available_filters_with_already_read
-        return @available_filters if @available_filters
-        available_filters_without_already_read
-
-        if !has_filter?('already_read')
-          @available_filters['already_read'] = {:type => :list, :order => 20, :values => @available_filters['author_id'][:values], :name => l(:field_already_read)}
+      def initialize *args
+        super *args
+        if IssueQuery.next_instance_requires_additional_only_unreads_filter_injection
+          IssueQuery.next_instance_requires_additional_only_unreads_filter_injection = false
+          self.add_filter 'already_read', '<>', ["#{User.current.id}"]
         end
-
-        if !has_filter?('already_read_date')
-          @available_filters['already_read_date'] = {:type => :date_past,  :name => l(:field_already_read_date)}
-        end
-
-        return @available_filters
+        # self
       end
+    
+      def initialize_available_filters_with_already_read
+        initialize_available_filters_without_already_read
+
+        unless available_filters.key?('already_read')
+          add_available_filter 'already_read', {:type => :list, :order => 20, :values => @available_filters['author_id'][:values], :name => l(:field_already_read)}
+        end
+      end
+      
 
       def sql_for_already_read_field(field, operator, value)
         db_table = AlreadyRead.table_name

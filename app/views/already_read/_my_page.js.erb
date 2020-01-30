@@ -1,0 +1,30 @@
+<script>
+
+function __inject_only_watchers_setting(id, checked) {
+	// setTimeout(function(){
+		var box = $('.mypage-box#block-'+id);
+		if (!box.has('table.list.issues').length)
+			return;
+		var cont = box.find('h3').first();
+
+		var checkbox = $('<input type="checkbox">'),
+			hidden = $('<input>').attr({'type': 'hidden', 'name': 'settings['+id+'][unread_only]'});
+
+		if(checked) {
+			checkbox.prop('checked', true);
+			hidden.val(1);
+		}
+
+		cont.append($('<small>').append($('<label>').append(checkbox).append(' <%= l(:label_unread_only) %>').css('margin-left', '.5em')));
+
+		var settings_form = box.find('#'+id+'-settings form');
+		settings_form.append(hidden);
+
+		checkbox.change(function() {
+			hidden.val(this.checked ? 1 : '');
+			settings_form.submit();
+		});
+	// },1);
+}
+
+</script>

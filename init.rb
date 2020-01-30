@@ -17,11 +17,5 @@ Redmine::Plugin.register :redmine_already_read do
   author 'OZAWA Yasuhiro'
   description 'Markup read issues.'
   version '0.0.5'
-  url 'https://github.com/egisz/redmine_already_read'
-  #author_url 'http://blog.livedoor.jp/ameya86/'
-
-  # Nepadeda, nes neperduoda kazkodel projekto :(
-  # Redmine::AccessControl.permission(:view_issues).actions << "issues/bulk_set_read" 
-  # activity_provider :issues, :class_name => 'AlreadyRead', :default => false
-
+  url 'https://github.com/exocad/redmine_already_read'
 end
