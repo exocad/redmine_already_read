@@ -10,6 +10,15 @@ module AlreadyRead
         # horrible chaining is necessary to stay compatible with RedmineUP plugins
         alias_method :initialize_available_filters_without_already_read, :initialize_available_filters
         alias_method :initialize_available_filters, :initialize_available_filters_with_already_read
+        
+        self.available_columns += [
+            QueryColumn.new(:already_read, :sortable => lambda {
+                "(select count(*) from already_reads where already_reads.issue_id=#{Issue.table_name}.id and already_reads.user_id=#{User.current.id})"
+            }, :default_order => 'desc'),
+            QueryColumn.new(:already_read_date, :sortable => lambda {
+                "(select already_reads.created_on from already_reads where already_reads.issue_id=#{Issue.table_name}.id and already_reads.user_id=#{User.current.id})"
+            }, :default_order => 'desc')
+        ]
       end
     end
 

@@ -1,4 +1,6 @@
 de:
+  field_already_read: Gelesen
+  field_already_read_date: Gelesen am
   label_mark_read: "Als gelesen markieren"
   label_mark_unread: "Als ungelesen markieren"
   label_unread_only: "Nur ungelesene"
