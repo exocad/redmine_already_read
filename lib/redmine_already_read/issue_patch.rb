@@ -1,4 +1,4 @@
-module AlreadyReadLib
+module RedmineAlreadyRead
   module IssuePatch
     def self.included(base) # :nodoc:
       base.send(:include, InstanceMethods) # obj.method
