@@ -1,4 +1,4 @@
-module AlreadyReadLib
+module AlreadyRead
   class HookListener < Redmine::Hook::ViewListener
     render_on :view_issues_context_menu_end, :partial => 'already_read/update_context'
     def view_layouts_base_html_head(context = {})

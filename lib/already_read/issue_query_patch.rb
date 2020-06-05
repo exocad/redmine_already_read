@@ -1,4 +1,4 @@
-module AlreadyReadLib
+module AlreadyRead
   module IssueQueryPatch
     def self.included(base) # :nodoc:
       base.send(:include, InstanceMethods) # obj.method

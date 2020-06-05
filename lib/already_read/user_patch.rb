@@ -1,4 +1,4 @@
-module AlreadyReadLib
+module AlreadyRead
   module UserPatch
     def self.included(base)
       base.class_eval do

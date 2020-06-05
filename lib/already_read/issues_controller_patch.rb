@@ -1,4 +1,4 @@
-module AlreadyReadLib
+module AlreadyRead
   module IssuesControllerPatch
     def self.included(base)
       base.send :include, InstanceMethods
