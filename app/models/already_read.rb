@@ -7,15 +7,9 @@ class AlreadyRead < ActiveRecord::Base
   # "活動"に表示されるようにイベントをプロバイダを登録する
   acts_as_event :title => Proc.new {|o| "#{o.issue.tracker.name} ##{o.issue.id} (#{o.issue.status}): #{o.issue.subject}"},
                 :type => 'issue-note', #Proc.new {|o| 'issue' + (o.closed? ? ' closed' : '') },
-				:datetime => :created_on,
+				        :datetime => :created_on,
                 :author => :user,
                 :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.issue.id}}
-
-  acts_as_activity_provider :timestamp => "#{table_name}.created_on",
-							#:find_options => {:include => [ {:issue => [:project, :tracker, :status]}, :user ]},
-							:scope => preload(:issue, :user),
-                            :author_key => :user_id, :type => 'issues'
-
 
   scope :visible, lambda {|*args|
     includes(:issue => :project).
