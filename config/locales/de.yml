@@ -1,0 +1,15 @@
+de:
+  field_already_read: Gelesen
+  field_already_read_date: Gelesen am
+
+  label_already_read: Gelesen
+  label_unread: Ungelesen
+  
+  label_mark_read: Als gelesen markieren
+  label_mark_unread: Als ungelesen markieren
+
+  label_already_read_read: Gelesen
+  label_already_read_unread: Ungelesen
+
+  activity_already_read: Gelesen
+  label_unread_only: Nur ungelesene
