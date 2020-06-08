@@ -9,6 +9,7 @@ Rails.application.config.to_prepare do
     IssueQuery.add_available_column(QueryColumn.new(:already_read))
     IssueQuery.add_available_column(QueryColumn.new(:already_read_date))
     IssueQuery.send(:include, RedmineAlreadyRead::IssueQueryPatch)
+    MyHelper.send(:include, RedmineAlreadyRead::MyHelperPatch)
   end
 end
 
