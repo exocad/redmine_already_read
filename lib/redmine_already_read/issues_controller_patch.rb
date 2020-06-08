@@ -5,9 +5,9 @@ module RedmineAlreadyRead
 
       base.class_eval do
         # overrides main :'(
-        before_filter :authorize, :except => [:index, :new, :create, :bulk_set_read] 
-        after_filter :issue_read, :only => :show
-        after_filter :set_read, :only => :bulk_update
+        before_action :authorize, :except => [:index, :new, :create, :bulk_set_read] 
+        after_action :issue_read, :only => :show
+        after_action :set_read, :only => :bulk_update
       end
     end
 
@@ -21,7 +21,7 @@ module RedmineAlreadyRead
       def bulk_set_read
         issues = Issue.where(:id => params["ids"]);
         if params[:set_unread]
-          AlreadyRead.destroy_all(:issue_id => params[:ids], :user_id => User.current.id)
+          AlreadyRead.where(:issue_id => params[:ids], :user_id => User.current.id).destroy_all
         else
           User.current.already_read_issues << issues.reject{|issue| issue.already_read?}
         end
